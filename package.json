@@ -2,19 +2,38 @@
   "name": "scrolling-slider-gallery",
   "main": "dist/index.js",
   "module": "dist/index.js",
-  "files": [ "dist","README.md"],
-  "version": "0.1.5",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "version": "0.1.8",
   "scripts": {
     "start": "react-scripts start",
     "build": "rm -rf dist && NODE_ENV=production babel src/lib --out-dir dist --copy-files --ignore __tests__,spec.js,test.js,__snapshots__",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ganeshmad/react-scrolling-slider-gallery.git"
+  },
+  "keywords": [
+    "scrolling image gallery",
+    "scrolling slider gallery",
+    "scrolling gallery",
+    "slider gallery",
+    "sliding image gallery",
+    "image gallery",
+    "slide show",
+    "sliding images",
+    "gallery"
+  ],
+  "homepage": "https://github.com/ganeshmad/react-scrolling-slider-gallery/tree/SliderGallery",
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "react-scripts": "1.1.4"
-  }
+  },
+  "dependencies": {}
 }
-

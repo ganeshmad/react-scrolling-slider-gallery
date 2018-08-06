@@ -6,7 +6,7 @@ class SliderGallery extends React.Component {
     
   constructor(props) {
     super(props);
-    this.state = {imagesItems:[],timeInterval:10,direction:'right',sourceLen: 0};
+    this.state = {imagesItems:[],timeInterval:15,direction:'right',sourceLen: 0};
   }
 
   setSateProperties(){
