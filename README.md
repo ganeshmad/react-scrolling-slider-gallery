@@ -3,6 +3,11 @@
 	images gallery in react that will make look and fill better images gallery.
 	Scrolling Slider Gallery can be sliding or scrolling images from left to right or vise-versa dorection.
 
+## Scrolling Slider Gallery Preview 
+
+![](https://i.imgur.com/qwdZRdk.png)
+
+
 ## Installation 
 	Run the following command:
     `npm install scrolling-slider-gallery`
@@ -44,7 +49,3 @@
 
     3. <SliderGallery slidingDirection="left" slideInterval={80} itemSource={imagesItems}>           
 	     </SliderGallery>
-		 
-##  Keywords
-scrolling image gallery,Slider gallery, image gallery, slideshow ,slide show  images slide show, 
-scrolling Slider gallery, gallery
