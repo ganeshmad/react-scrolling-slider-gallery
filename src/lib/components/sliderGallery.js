@@ -6,7 +6,7 @@ class SliderGallery extends React.Component {
     
   constructor(props) {
     super(props);
-    this.state = {imagesItems:[],timeInterval:15,direction:'right',sourceLen: 0};
+    this.state = {imagesItems:[],timeInterval:10,direction:'right',sourceLen: 0};
   }
 
   setSateProperties(){
@@ -36,25 +36,27 @@ class SliderGallery extends React.Component {
       if(bool){
         var cloneItems =[...this.state.imagesItems];
         var lastItemLeftBound=cloneItems[cloneItems.length-1].positionProperty;
+        var imageElement = document.querySelector('#container');
+        var  containerRect=imageElement.getBoundingClientRect().width;
         timer = setInterval(()=>{
           for (let index = 0; index < cloneItems.length; index++) {
               var eachImageElement = document.querySelector('#image_container_'+index.toString());
-              var directionAttribute =cloneItems[index].direction;
-              var position=eachImageElement.style[directionAttribute];
-              var isPisxelExist = position.includes("px");
-              if(isPisxelExist){
-                  position= position.split('px');
-                  position=parseInt(position[0],10);
-              }
-
-              if(position > -201){
-                  position=position-1;
-                  eachImageElement.style[directionAttribute]=position+'px';
-                  eachImageElement.style.display='block';
-              }
-              else{
-                eachImageElement.style.display='none';
-                eachImageElement.style[directionAttribute]=lastItemLeftBound+'px';
+              var position = eachImageElement.getAttribute('data-position');
+              position=parseInt(position,10);
+              if(this.state.direction==='left'){
+                if(position !== -201){
+                    position=position-1;
+                    this.transformElement(position,eachImageElement,"block");
+                }else{
+                    this.transformElement(lastItemLeftBound,eachImageElement,"none");
+                }
+              }else{
+                if(position < containerRect){
+                    position=position +1;
+                    this.transformElement(position,eachImageElement,"block");
+                }else{
+                  this.transformElement(lastItemLeftBound,eachImageElement,"none");
+                }
               }
           }
         },this.state.timeInterval);
@@ -62,6 +64,15 @@ class SliderGallery extends React.Component {
         clearInterval(timer);
       }
     }
+  }
+
+  transformElement(position,eachImageElement,display){
+    eachImageElement.style.display=display;
+    eachImageElement.setAttribute('data-position',position);
+    eachImageElement.style.transform="translate("+position+"px)";
+    eachImageElement.style["-webkit-transform"]="translate("+position+"px)";
+    eachImageElement.style["-o-transform"]="translate("+position+"px)";
+    eachImageElement.style["-moz-transform"]="translate("+position+"px)";
   }
 
   bindingGallery(){
@@ -92,14 +103,21 @@ class SliderGallery extends React.Component {
                    container.style.width="auto";
       }
 
+      var imageElement = document.querySelector('#container');
+      var  elementRect=imageElement.getBoundingClientRect().width-200;
+      if(sliderDirection==='right'){positionValue=elementRect};
       for (let i = 0; i < this.props.itemSource.length; i++) {
         var element = {'direction':sliderDirection,'imagePath':this.props.itemSource[i].imageUrl,'positionProperty':positionValue,'mouseout':this.mouseOut.bind(this),'mouseover':this.mouseOver.bind(this)};
         temp.push(element);
-        positionValue=positionValue + 201;
+        if(sliderDirection==='left'){
+          positionValue=positionValue + 201;
+        }else{
+          positionValue=positionValue - 201;
+        }
       }
-      
+
       this.setState({imagesItems:temp,isOpen: false});
-      setTimeout(()=>{ this.slider(true);},50);
+      this.slider(true)
     }
   }
 
@@ -130,9 +148,10 @@ class SliderGallery extends React.Component {
               {
               this.state.imagesItems.map(function(item,key){ 
               var pimgid='image_container_'+key;
-              const directionStyles = item.direction==='left' ? {direction:{left:item.positionProperty}} : {direction:{right:item.positionProperty}};
+              var transx="translate("+item.positionProperty+"px)";
+              const directionStyles = item.direction==='left' ? {direction:{transform:transx}} : {direction:{transform:transx}};
               
-              return <div className="image-paper" id={pimgid} key={key} style={directionStyles.direction} >
+              return <div data-position={item.positionProperty} className="image-paper" id={pimgid} key={key} style={directionStyles.direction} >
                     <div onMouseOut={()=>item.mouseout()} onMouseOver={()=>item.mouseover()}>
                       <img className="gallery-img" src={item.imagePath} alt='loading'/>
                       </div>
